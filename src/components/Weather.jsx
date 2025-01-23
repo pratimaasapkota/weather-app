@@ -10,7 +10,8 @@ import wind_icon from '../assets/wind.png';
 import humidity_icon from '../assets/humidity.png';
 
 const Weather = () => {
-  
+  const [weatherData, setWeatherData] = useState(null);
+  const [error, setError] = useState(null);
 
   const getWeatherIcon = (condition, temp) => {
     if (temp <= 0) return snow_icon;
