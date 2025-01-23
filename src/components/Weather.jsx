@@ -11,6 +11,7 @@ import humidity_icon from '../assets/humidity.png';
 
 const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
+  const [error, setError] = useState(null);
 
   const getWeatherIcon = (condition, temp) => {
     if (temp <= 0) return snow_icon;
@@ -25,6 +26,11 @@ const Weather = () => {
     try {
       const url = `http://api.weatherapi.com/v1/current.json?key=0b146a3c1a5a4bebbff150019252201&q=${city}&aqi=yes`;
       const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error("Location not found");
+      }
+
       const data = await response.json();
       const condition = data.current.condition.text.toLowerCase();
       const temperature = Math.floor(data.current.temp_c);
@@ -36,8 +42,12 @@ const Weather = () => {
         windSpeed: data.current.wind_kph,
         icon: getWeatherIcon(condition, temperature),
       });
+
+      setError(null); // Clear any previous error
     } catch (error) {
       console.error('Error fetching weather data:', error);
+      setWeatherData(null); // Clear previous data
+      setError("Invalid location. Please try again."); // Set error message
     }
   };
 
@@ -54,6 +64,7 @@ const Weather = () => {
         <input type="text" placeholder="Search" />
         <img src={search_icon} alt="Search Icon" onClick={handleSearch} />
       </div>
+      {error && <p className="error-message">{error}</p>}
       {weatherData && (
         <>
           <img src={weatherData.icon} alt="Weather Icon" className="weather-icon" />
