@@ -22,7 +22,18 @@ const Weather = () => {
     return clear_icon; // Default to clear for other conditions
   };
 
-  
+  const searchWeather = async (city) => {
+    try {
+      const url = `http://api.weatherapi.com/v1/current.json?key=0b146a3c1a5a4bebbff150019252201&q=${city}&aqi=yes`;
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error("Location not found");
+      }
+
+      const data = await response.json();
+      const condition = data.current.condition.text.toLowerCase();
+      const temperature = Math.floor(data.current.temp_c);
 
       setWeatherData({
         temperature: temperature,
