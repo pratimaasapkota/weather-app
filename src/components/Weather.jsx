@@ -31,10 +31,7 @@ const Weather = () => {
         throw new Error("Location not found");
       }
 
-      const data = await response.json();
-      const condition = data.current.condition.text.toLowerCase();
-      const temperature = Math.floor(data.current.temp_c);
-
+      
       setWeatherData({
         temperature: temperature,
         location: data.location.name,
