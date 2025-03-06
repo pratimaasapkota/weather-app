@@ -34,12 +34,7 @@ const Weather = () => {
       const condition = data.current.condition.text.toLowerCase();
       const temperature = Math.floor(data.current.temp_c);
 
-      setWeatherData({
-        temperature: temperature,
-        location: data.location.name,
-        humidity: data.current.humidity,
-        windSpeed: data.current.wind_kph,
-        icon: getWeatherIcon(condition, temperature),  
+      
       
       });
 
